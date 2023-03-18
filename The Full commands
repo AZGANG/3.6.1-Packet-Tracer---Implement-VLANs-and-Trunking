@@ -1,0 +1,95 @@
+Configure VLANs
+Configure VLANs on all three switches. Refer to the VLAN Table. Note that the VLAN names must match the values in the table exactly. 
+vlan 10 
+name Admin
+
+vlan 20 
+name Accounts 
+
+vlan 30 
+name HR
+
+vlan 40 
+name Voice 
+
+vlan 99
+name Management 
+
+vlan 100 
+name Native 
+
+SWB
+int f0/1 
+switchport mode access 
+switchport access vlan 10
+
+int f0/2 
+switchport mode access 
+switchport access vlan 20 
+
+int f0/3 
+switchport mode access 
+switchport access vlan 30 
+
+swc 
+int f0/4 
+mls qos trust cos 
+switchport voice vlan 40 
+switchport mode access 
+
+switchport access vlan 10
+int f0/1 
+switchport mode access 
+switchport access vlan 10
+
+int f0/2 
+switchport mode access 
+switchport access vlan 20 
+
+int f0/3 
+switchport mode access 
+switchport access vlan 30 
+
+vmi 
+swc 
+int vlan 99
+ip address 192.168.99.252 255.255.255.0
+no shut 
+swc
+int vlan 99
+ip address 192.168.99.253 255.255.255.0
+no shut
+swc
+int vlan 99
+ip address 192.168.99.254 255.255.255.0
+no shut
+
+
+Configure Static Trunking
+SWA
+int g0/1
+switchport mode trunk 
+switchport trunk native vlan 100
+switchport nonegotiate 
+
+SWB
+int g0/1
+switchport mode trunk 
+switchport trunk native vlan 100
+switchport nonegotiate
+
+swA dy
+int g0/2 
+switchport mode trunk 
+switchport mode dynamic desirable 
+switchport trunk native vlan 100
+
+Swc 
+int g0/2
+switchport trunk native vlan 100
+no shut 
+exit
+
+
+
+
